@@ -1,13 +1,36 @@
 <?php
 
-var_dump($_GET); 
+//$number_of_test = $_GET['id'];
 
 $file = file_get_contents(__DIR__ . '/tests.json');
 $json = json_decode($file, true);
-echo '<pre>';
-print_r($json);
 
 $id = $_GET['id'];
+
+if (isset($_POST['button'])) {
+	
+	if ($_POST['q' . $id] === $json[$id]['rightAnswer']) {
+
+		if (!empty($_POST['name'])) {
+			echo $_POST['name'] . ", вы ответили верно!"; 	
+		} else {
+			echo "Верно!"; 	
+		}
+		
+	} else {
+
+		if (!empty($_POST['name'])) {
+			echo  $_POST['name'] . ", Вы ответили неверно! Правильный ответ - {$json[$id]['rightAnswer']}";
+		} else {
+			echo "Неверно! Правильный ответ - {$json[$id]['rightAnswer']}"; 	
+		}
+				
+	}
+	exit;
+}
+
+	
+
 ?>
 
 <!DOCTYPE>
@@ -19,21 +42,13 @@ $id = $_GET['id'];
     </head>
     <body>
     	 
-	   		<h2><?php echo $json[$id]['question']; ?></h2>
-
-	    	<ol>    		
-	    		<?php foreach($json[$id]['variantsOfAnswers'] as $variant): ?>
-		            <li><a href = "#" ><?php echo $variant; ?></a></li>
-		        <?php endforeach; ?> 
-	    	</ol>
-
-<form action="" method="GET">
+<form action="" method="POST">
    <label>Введите Ваше имя <input type="text" name="name" value=""></label>
 
 	<fieldset>
         <legend><?php echo $json[$id]['question']; ?></legend>
         <?php foreach($json[$id]['variantsOfAnswers'] as $key => $variant): ?>
-            <label><input type="radio" name="q1" value="<?php echo $key; ?>"><?php echo $variant; ?></label>
+            <label><input type="radio" name="<?php echo "q" . $id; ?>" value="<?php echo $key; ?>"><?php echo $variant; ?></label>
         <?php endforeach; ?> 
 	    
     </fieldset>
