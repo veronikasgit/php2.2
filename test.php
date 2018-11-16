@@ -82,10 +82,10 @@ exit;
 		    <button type="submit" name="button">Проверить</button>
 		</form>
 
-		<p><a href = "admin.php">Загрузить новый тест</a></p>
+		<!-- <p><a href = "admin.php">Загрузить новый тест</a></p>
 		
 		<p><a href = "list.php">Перейти к списку тестов</a></p>
-
+ -->
 </body>
 </html>
 
