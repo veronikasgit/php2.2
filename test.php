@@ -3,30 +3,22 @@ $filelist = glob('tests/*.json');
 
 echo '<a href="list.php">Перейти к списку тестов</a>' . '<br>';
 echo '<a href = "admin.php">Загрузить новый тест</a>' . '<br>';
-echo '<Hr>';
+echo '<hr>';
 if (isset($_GET['key'])) {
 	$id = $_GET['key'];
-
 foreach ($filelist as  $key => $filename) {
 	if ($key == $id) {	
 		$file = file_get_contents($filename);
 		$json = json_decode($file, true);
 	}
-
 }
 } else {
 	echo "Вы не выбрали тест. Вернуться к " . '<a href="list.php">списку тестов</a>';
 	exit;
 }
 
-
 $i = 0;
 if (isset($_POST['button'])) {
-
-	// if (isset($_SESSION['login']) && ($_SESSION['login'] !== "guest")) {
-	// 	echo '<br>' . $_SESSION['login'] . "!" . '<br>' . '<hr>'; 
-	// } 
-
 	$mark = 0;
 	foreach($json as $number => $questions) {
 	
@@ -41,14 +33,11 @@ if (isset($_POST['button'])) {
 			$mark++;
 
 		} else {
-
-				echo  $questions['question'] . " - Вы ответили неверно! Правильный ответ - {$questions['rightAnswer']}" . '<br>';					
+			echo  $questions['question'] . " - Вы ответили неверно! Правильный ответ - {$questions['rightAnswer']}" . '<br>';					
 		}
-
 	}
 	
 echo '<br>' . "Правильных ответов - $mark" . '<br>';
-
 exit;
 }
 
@@ -63,29 +52,24 @@ exit;
     </head>
     <body>
     	 
-		<form action="" method="POST">
-		   <!-- <label>Введите Ваше имя <input type="text" name="name" value=""></label> -->
+	<form action="" method="POST">
 
-			<fieldset>
+		<fieldset>
 
-				<?php foreach($json as $number => $questions): ?>
+			<?php foreach($json as $number => $questions): ?>
 
-			        <legend><?php echo $questions['question']; ?></legend>
+			<legend><?php echo $questions['question']; ?></legend>
 
-				        <?php foreach($questions['variantsOfAnswers'] as $key => $variant): ?>
-				            <label><input type="radio" name="<?php echo "q" . $number; ?>" value="<?php echo $key; ?>"><?php echo $variant; ?></label>
-				        <?php endforeach; ?> 
+				<?php foreach($questions['variantsOfAnswers'] as $key => $variant): ?>
+				    <label><input type="radio" name="<?php echo "q" . $number; ?>" value="<?php echo $key; ?>"><?php echo $variant; ?></label>
+				<?php endforeach; ?> 
 
-				 <?php endforeach; ?>         
-			    
-		    </fieldset>
-		    <button type="submit" name="button">Проверить</button>
-		</form>
+			 <?php endforeach; ?>         
 
-		<!-- <p><a href = "admin.php">Загрузить новый тест</a></p>
-		
-		<p><a href = "list.php">Перейти к списку тестов</a></p>
- -->
+	    </fieldset>
+	    <button type="submit" name="button">Проверить</button>
+	</form>
+
 </body>
 </html>
 
