@@ -2,14 +2,22 @@
 
 if(isset($_POST['button'])) {
 	if (!empty($_FILES) && array_key_exists('test', $_FILES)) {
-        header('Location: list.php');
-	   move_uploaded_file($_FILES['test']['tmp_name'], 'tests.json');
-	    echo "Файл загружен"; 
-	    exit;
-	} else {
-	    echo "Файл не загружен";
-	}
+	//echo '<pre>';
+	//	var_dump($_FILES);
+		$f_type = $_FILES['test']['type'];
+		//var_dump($f_type);
+		if ($f_type === "application/json")	 {
+			$hash = ($_FILES['test']['name'].time());
+			move_uploaded_file($_FILES['test']['tmp_name'], "./tests/$hash.json");
+	        header('Location: list.php');	 
+	        exit;
+		} elseif ($f_type !== "application/json") {
+		echo "Неверный формат файла! Попробуйте еще раз!";
+		}
+		
+	} 
 }
+
 
 ?>
 
@@ -28,6 +36,6 @@ if(isset($_POST['button'])) {
 	<input type="submit" name="button">
 </form>
 
-
+<a href = "list.php">Перейти к списку тестов</a>
 </body>
 </html>

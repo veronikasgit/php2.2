@@ -1,7 +1,6 @@
 <?php
 
-$file = file_get_contents(__DIR__ . '/tests.json');
-$json = json_decode($file, true);
+$filelist = glob('tests/*.json');
 
 ?>
 
@@ -12,14 +11,18 @@ $json = json_decode($file, true);
     	<meta charset="utf-8">
     </head>
     <body>
-    	<ol>
-			<?php for($i = 0; $i < count($json); $i++): ?>
+    	
+        <ol>
+            
+                <?php foreach ($filelist as $key => $filename): ?>
 
-	            <li><a href = "test.php?id=<?php echo $i; ?>" ><?php echo $json[$i]['question']; ?></a></li>
-	        <?php endfor; ?> 
-         	
-        </ol>
+                    <li><a href = "test.php?key=<?php echo $key; ?>"><?php  echo $filename . "<br>"; ?></a></li>
 
+                <?php endforeach; ?>            
+           
+        </ol>       
+
+<a href = "admin.php">Загрузить новый тест</a>
 
 	</body>
 </html>
